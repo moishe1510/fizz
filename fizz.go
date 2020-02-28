@@ -3,6 +3,7 @@ package fizz
 import (
 	"errors"
 	"fmt"
+	"github.com/moishe1510/fizz/openapi"
 	"net/http"
 	"path"
 	"reflect"
@@ -12,7 +13,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/loopfz/gadgeto/tonic"
-	"github.com/wI2L/fizz/openapi"
 )
 
 const ctxOpenAPIOperation = "_ctx_openapi_operation"
