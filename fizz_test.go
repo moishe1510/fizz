@@ -168,7 +168,8 @@ func TestTonicHandler(t *testing.T) {
 				"X-Test-C": []string{"foobaz"},
 			},
 			expectStatus: 200,
-			expectBody:   `{"x":"foo","y":1}`,
+			expectBody:   `{"x":"foo","y":1}
+`,
 		},
 		{
 			url:    "/test/bar/42?b=group-foobar",
@@ -177,7 +178,8 @@ func TestTonicHandler(t *testing.T) {
 				"X-Test-C": []string{"group-foobaz"},
 			},
 			expectStatus: 200,
-			expectBody:   `{"x":"group-foo","y":2}`,
+			expectBody:   `{"x":"group-foo","y":2}
+`,
 		},
 		{
 			url:    "/bar/42?b=group-foobar",

@@ -443,7 +443,7 @@ func TestSetInfo(t *testing.T) {
 // HTTP method.
 func TestSetOperationByMethod(t *testing.T) {
 	pi := &PathItem{}
-	for method, ptr := range map[string]**Operation{
+	for method, ptr := range map[string]*APIOperation{
 		"GET":     &pi.GET,
 		"POST":    &pi.POST,
 		"PUT":     &pi.PUT,
@@ -458,8 +458,7 @@ func TestSetOperationByMethod(t *testing.T) {
 			Description: desc,
 		}
 		setOperationBymethod(pi, op, method)
-		assert.Equal(t, op, *ptr)
-		assert.Equal(t, desc, (*ptr).Description)
+		assert.Equal(t, desc, (*ptr).GetDescription())
 	}
 }
 

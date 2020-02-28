@@ -1,5 +1,9 @@
 package openapi
 
+import (
+	"encoding/json"
+)
+
 // OpenAPI represents the root document object of
 // an OpenAPI document.
 type OpenAPI struct {
@@ -71,14 +75,14 @@ type PathItem struct {
 	Ref         string            `json:"$ref,omitempty" yaml:"$ref,omitempty"`
 	Summary     string            `json:"summary,omitempty" yaml:"summary,omitempty"`
 	Description string            `json:"description,omitempty" yaml:"description,omitempty"`
-	GET         *Operation        `json:"get,omitempty" yaml:"get,omitempty"`
-	PUT         *Operation        `json:"put,omitempty" yaml:"put,omitempty"`
-	POST        *Operation        `json:"post,omitempty" yaml:"post,omitempty"`
-	DELETE      *Operation        `json:"delete,omitempty" yaml:"delete,omitempty"`
-	OPTIONS     *Operation        `json:"options,omitempty" yaml:"options,omitempty"`
-	HEAD        *Operation        `json:"head,omitempty" yaml:"head,omitempty"`
-	PATCH       *Operation        `json:"patch,omitempty" yaml:"patch,omitempty"`
-	TRACE       *Operation        `json:"trace,omitempty" yaml:"trace,omitempty"`
+	GET         APIOperation        `json:"get,omitempty" yaml:"get,omitempty"`
+	PUT         APIOperation        `json:"put,omitempty" yaml:"put,omitempty"`
+	POST        APIOperation        `json:"post,omitempty" yaml:"post,omitempty"`
+	DELETE      APIOperation        `json:"delete,omitempty" yaml:"delete,omitempty"`
+	OPTIONS     APIOperation        `json:"options,omitempty" yaml:"options,omitempty"`
+	HEAD        APIOperation       `json:"head,omitempty" yaml:"head,omitempty"`
+	PATCH       APIOperation        `json:"patch,omitempty" yaml:"patch,omitempty"`
+	TRACE       APIOperation       `json:"trace,omitempty" yaml:"trace,omitempty"`
 	Servers     []*Server         `json:"servers,omitempty" yaml:"servers,omitempty"`
 	Parameters  []*ParameterOrRef `json:"parameters,omitempty" yaml:"parameters,omitempty"`
 }
@@ -190,6 +194,72 @@ type Operation struct {
 	Responses   Responses         `json:"responses,omitempty" yaml:"responses,omitempty"`
 	Deprecated  bool              `json:"deprecated,omitempty" yaml:"deprecated,omitempty"`
 	Servers     []*Server         `json:"servers,omitempty" yaml:"servers,omitempty"`
+}
+
+func (operation *Operation) Marshal() ([]byte, error){
+	jsonBytes, err := json.Marshal(operation)
+	if err!=nil{
+		return nil,err
+	}
+	return jsonBytes,nil
+}
+
+func (operation *Operation) Unmarshal(data []byte, v interface{}) error{
+	err := json.Unmarshal(data,v)
+	if err!=nil{
+		return err
+	}
+	return nil
+}
+
+func (operation *Operation) GetTags() []string{
+	return operation.Tags
+}
+
+func (operation *Operation) GetSummary() string{
+	return operation.Summary
+}
+
+func (operation *Operation) GetDescription() string{
+	return operation.Description
+}
+
+func (operation *Operation) GetID() string{
+	return operation.ID
+}
+
+func (operation *Operation) GetParameters() []*ParameterOrRef{
+	return operation.Parameters
+}
+
+func (operation *Operation) GetRequestBody() *RequestBody{
+	return operation.RequestBody
+}
+
+func (operation *Operation) GetResponses() Responses{
+	return operation.Responses
+}
+
+func (operation *Operation) GetDeprecated() bool{
+	return operation.Deprecated
+}
+
+func (operation *Operation) GetServers() []*Server{
+	return operation.Servers
+}
+
+type APIOperation interface {
+	Marshal() ([]byte, error)
+	Unmarshal(data []byte, v interface{}) error
+	GetTags() []string
+	GetSummary() string
+	GetDescription() string
+	GetID() string
+	GetParameters() []*ParameterOrRef
+	GetRequestBody() *RequestBody
+	GetResponses() Responses
+	GetDeprecated() bool
+	GetServers() []*Server
 }
 
 // Responses represents a container for the expected responses
