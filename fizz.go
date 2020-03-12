@@ -272,6 +272,16 @@ func Summary(summary string) func(*openapi.OperationInfo) {
 	}
 }
 
+func ApiKeyAuth() func(*openapi.OperationInfo) {
+	return func(o *openapi.OperationInfo) {
+		val := make([]string, 0)
+		if o.Security == nil{
+			o.Security = make(map[string]interface{})
+		}
+		o.Security["apiKey"] = val
+	}
+}
+
 // Summaryf adds a summary to an operation according
 // to a format specifier.
 func Summaryf(format string, a ...interface{}) func(*openapi.OperationInfo) {

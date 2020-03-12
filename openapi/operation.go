@@ -11,6 +11,7 @@ type OperationInfo struct {
 	Description       string
 	Deprecated        bool
 	InputModel        interface{}
+	Security		  map[string]interface{}
 	Responses         []*OperationReponse
 }
 
