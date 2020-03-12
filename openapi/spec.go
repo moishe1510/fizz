@@ -19,11 +19,19 @@ type OpenAPI struct {
 // ascpects of the specification.
 type Components struct {
 	Schemas    map[string]*SchemaOrRef    `json:"schemas,omitempty" yaml:"schemas,omitempty"`
+	SecurityScheme    map[string]interface{}    `json:"securitySchemes,omitempty" yaml:"securitySchemes,omitempty"`
 	Responses  map[string]*ResponseOrRef  `json:"responses,omitempty" yaml:"responses,omitempty"`
 	Parameters map[string]*ParameterOrRef `json:"parameters,omitempty" yaml:"parameters,omitempty"`
 	Examples   map[string]*ExampleOrRef   `json:"examples,omitempty" yaml:"examples,omitempty"`
 	Headers    map[string]*HeaderOrRef    `json:"headers,omitempty" yaml:"headers,omitempty"`
 }
+
+type ApiKeyAuth struct {
+	Type    string    `json:"type,omitempty" yaml:"type,omitempty"`
+	In    string    `json:"in,omitempty" yaml:"in,omitempty"`
+	Name    string    `json:"name,omitempty" yaml:"name,omitempty"`
+}
+
 
 // Info represents the metadata of an API.
 type Info struct {

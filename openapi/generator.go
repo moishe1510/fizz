@@ -97,6 +97,17 @@ func (g *Generator) SetInfo(info *Info) {
 	g.api.Info = info
 }
 
+func (g *Generator) SetAPIKeySecurity(info *Info) {
+	if g.api.Components.SecurityScheme == nil{
+		g.api.Components.SecurityScheme = make(map[string]interface{})
+	}
+	g.api.Components.SecurityScheme["ApiKeyAuth"] = ApiKeyAuth{
+		Type: "apiKey",
+		In:   "header",
+		Name: "X-API-Key",
+	}
+}
+
 // SetServers sets the server list for the
 // current specification.
 func (g *Generator) SetServers(servers []*Server) {
