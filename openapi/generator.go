@@ -97,7 +97,7 @@ func (g *Generator) SetInfo(info *Info) {
 	g.api.Info = info
 }
 
-func (g *Generator) SetAPIKeySecurity(info *Info) {
+func (g *Generator) SetAPIKeySecurity() {
 	if g.api.Components.SecurityScheme == nil{
 		g.api.Components.SecurityScheme = make(map[string]interface{})
 	}
