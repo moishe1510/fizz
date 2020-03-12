@@ -197,7 +197,7 @@ type Operation struct {
 	Summary     string            `json:"summary,omitempty" yaml:"summary,omitempty"`
 	Description string            `json:"description,omitempty" yaml:"description,omitempty"`
 	ID          string            `json:"operationId,omitempty" yaml:"operationId,omitempty"`
-	Security          map[string]interface{}            `json:"security,omitempty" yaml:"security,omitempty"`
+	Security          []map[string]interface{}            `json:"security,omitempty" yaml:"security,omitempty"`
 	Parameters  []*ParameterOrRef `json:"parameters,omitempty" yaml:"parameters,omitempty"`
 	RequestBody *RequestBody      `json:"requestBody,omitempty" yaml:"requestBody,omitempty"`
 	Responses   Responses         `json:"responses,omitempty" yaml:"responses,omitempty"`
@@ -229,7 +229,7 @@ func (operation *Operation) GetSummary() string{
 	return operation.Summary
 }
 
-func (operation *Operation) GetSecurity() map[string]interface{}{
+func (operation *Operation) GetSecurity() []map[string]interface{}{
 	return operation.Security
 }
 
@@ -273,7 +273,7 @@ type APIOperation interface {
 	GetResponses() Responses
 	GetDeprecated() bool
 	GetServers() []*Server
-	GetSecurity() map[string]interface{}
+	GetSecurity() []map[string]interface{}
 }
 
 // Responses represents a container for the expected responses
