@@ -104,7 +104,7 @@ func (g *Generator) SetAPIKeySecurity(name string) {
 	g.api.Components.SecurityScheme[name] = ApiKeyAuth{
 		Type: "apiKey",
 		In:   "header",
-		Name: "X-API-Key",
+		Name: "x-api-key",
 	}
 }
 
