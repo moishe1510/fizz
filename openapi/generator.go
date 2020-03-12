@@ -97,11 +97,11 @@ func (g *Generator) SetInfo(info *Info) {
 	g.api.Info = info
 }
 
-func (g *Generator) SetAPIKeySecurity() {
+func (g *Generator) SetAPIKeySecurity(name string) {
 	if g.api.Components.SecurityScheme == nil{
 		g.api.Components.SecurityScheme = make(map[string]interface{})
 	}
-	g.api.Components.SecurityScheme["ApiKeyAuth"] = ApiKeyAuth{
+	g.api.Components.SecurityScheme[name] = ApiKeyAuth{
 		Type: "apiKey",
 		In:   "header",
 		Name: "X-API-Key",
