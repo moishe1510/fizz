@@ -272,14 +272,14 @@ func Summary(summary string) func(*openapi.OperationInfo) {
 	}
 }
 
-func ApiKeyAuth() func(*openapi.OperationInfo) {
+func ApiKeyAuth(name string) func(*openapi.OperationInfo) {
 	return func(o *openapi.OperationInfo) {
 		if o.Security == nil{
 			o.Security = []map[string]interface{}{}
 		}
 		val := make([]string, 0)
 		sec := make(map[string]interface{})
-		sec["apiKey"] = val
+		sec[name] = val
 		o.Security = append(o.Security,sec)
 	}
 }
