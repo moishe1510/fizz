@@ -229,6 +229,10 @@ func (operation *Operation) GetSummary() string{
 	return operation.Summary
 }
 
+func (operation *Operation) GetSecurity() map[string]interface{}{
+	return operation.Security
+}
+
 func (operation *Operation) GetDescription() string{
 	return operation.Description
 }
@@ -269,6 +273,7 @@ type APIOperation interface {
 	GetResponses() Responses
 	GetDeprecated() bool
 	GetServers() []*Server
+	GetSecurity() map[string]interface{}
 }
 
 // Responses represents a container for the expected responses
