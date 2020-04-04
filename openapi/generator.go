@@ -566,6 +566,7 @@ func (g *Generator) addStructFieldToOperation(op *Operation, t reflect.Type, idx
 		// have been added yet.
 		if _, ok := op.RequestBody.Content[mt]; !ok {
 			schema = &Schema{
+				Title: t.Name(),
 				Type:       "object",
 				Properties: make(map[string]*SchemaOrRef),
 			}
@@ -600,6 +601,7 @@ func (g *Generator) addStructFieldToOperation(op *Operation, t reflect.Type, idx
 		sfs := g.newSchemaFromStructField(sf, required, fname, t)
 		if schema != nil {
 			schema.Properties[fname] = sfs
+			op.RequestBody.Required = true
 		}
 	}
 	return nil
