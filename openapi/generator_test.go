@@ -262,6 +262,47 @@ func TestNewSchemaFromStructFieldErrors(t *testing.T) {
 	assert.NotEmpty(t, g.Errors()[3].Error())
 }
 
+// TestInterfaceType tests that interface{} fields are properly
+// included in the schema with an empty type (any type).
+func TestInterfaceType(t *testing.T) {
+	g := gen(t)
+	g.UseFullSchemaNames(false)
+
+	type TestStruct struct {
+		Name  string      `json:"name"`
+		Value interface{} `json:"value"`
+		Data  interface{} `json:"data,omitempty"`
+	}
+
+	sor := g.newSchemaFromType(rt(TestStruct{}))
+	assert.NotNil(t, sor)
+
+	schema := g.resolveSchema(sor)
+	assert.NotNil(t, schema)
+
+	// Check that properties exist
+	assert.NotNil(t, schema.Properties)
+	assert.Contains(t, schema.Properties, "name")
+	assert.Contains(t, schema.Properties, "value")
+	assert.Contains(t, schema.Properties, "data")
+
+	// Check that Value field has empty type (any type)
+	valueProp := schema.Properties["value"]
+	assert.NotNil(t, valueProp)
+
+	valueSchema := g.resolveSchema(valueProp)
+	assert.NotNil(t, valueSchema)
+	assert.Empty(t, valueSchema.Type, "interface{} should have empty type field to represent any type")
+
+	// Check that Data field also has empty type
+	dataProp := schema.Properties["data"]
+	assert.NotNil(t, dataProp)
+
+	dataSchema := g.resolveSchema(dataProp)
+	assert.NotNil(t, dataSchema)
+	assert.Empty(t, dataSchema.Type, "interface{} should have empty type field to represent any type")
+}
+
 func diffJSON(a, b []byte) (bool, error) {
 	var j, j2 interface{}
 	if err := json.Unmarshal(a, &j); err != nil {

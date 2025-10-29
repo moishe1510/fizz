@@ -98,7 +98,7 @@ func (g *Generator) SetInfo(info *Info) {
 }
 
 func (g *Generator) SetAPIKeySecurity(name string) {
-	if g.api.Components.SecurityScheme == nil{
+	if g.api.Components.SecurityScheme == nil {
 		g.api.Components.SecurityScheme = make(map[string]interface{})
 	}
 	g.api.Components.SecurityScheme[name] = ApiKeyAuth{
@@ -566,7 +566,7 @@ func (g *Generator) addStructFieldToOperation(op *Operation, t reflect.Type, idx
 		// have been added yet.
 		if _, ok := op.RequestBody.Content[mt]; !ok {
 			schema = &Schema{
-				Title: t.Name(),
+				Title:      t.Name(),
 				Type:       "object",
 				Properties: make(map[string]*SchemaOrRef),
 			}
@@ -817,6 +817,16 @@ func (g *Generator) newSchemaFromType(t reflect.Type) *SchemaOrRef {
 		t = t.Elem()
 		nullable = true
 	}
+
+	// Handle interface{} type - represents "any type" in OpenAPI
+	// by creating an empty schema (no type field)
+	if t.Kind() == reflect.Interface {
+		schema := &Schema{
+			Nullable: nullable,
+		}
+		return &SchemaOrRef{Schema: schema}
+	}
+
 	dt := g.datatype(t)
 	if dt == TypeUnsupported {
 		g.error(&TypeError{
